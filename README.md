@@ -1,2 +1,11 @@
 # vm-creator
-A rudimentary bash script to automate VirtualBox Virtual Machine creation.
+A bash script that automates unattended creation and installation of a VirtualBox Virtual Machine
+
+Inspiration
+============
+
+## Installation
+
+## Configuration
+
+## Bug fix
