@@ -76,10 +76,10 @@ function doInstall(){
 function checkExist(){
     if [[ `VBoxManage list vms | grep $VBoxName` ]];then
         U_UID=`VBoxManage list vms | grep $VBoxName | awk -F" " '{print $2}'`
-        echo -e "\n[!!]VM with similar name exists its UUID is $U_UID.\n"
-        read -p "[*]Would you like to delete it?(Y/N)" resp
+        echo -e "\n[!!] VM with similar name exists its UUID is $U_UID.\n"
+        read -p "[*] Would you like to delete it?(Y/N)" resp
 	        if [[ $resp == "Y" || $resp == "y" ]];then
-	            echo -e "\n[+]Unregistering & deleting $VBoxName.\n"
+	            echo -e "\n[+] Unregistering & deleting $VBoxName.\n"
                 if [[ `VBoxManage list runningvms | grep $VBoxName` ]];then
                     VBoxManage controlvm ${VBoxName} poweroff soft 2>&1 /dev/null
                     VBoxManage unregistervm ${VBoxName} --delete 2>&1 /dev/null
@@ -87,9 +87,9 @@ function checkExist(){
                     VBoxManage unregistervm ${VBoxName} --delete 2>&1 /dev/null
                 fi
 	        elif [[ $resp == "N" || $resp == "n" ]];then
-	            echo -e "\n[!!]Edit the vm.conf file and change the VBoxName value!\n"
+	            echo -e "\n[!!] Edit the vm.conf file and change the VBoxName value!\n"
 	        else
-	            echo -e "\n[!!]Unknown option $resp, try Y\\y or N\\\n. \n"
+	            echo -e "\n[!!] Unknown option $resp, try Y\\y or N\\\n. \n"
 	        fi
     else
     	echo -e "\n[+] Proceeding with set up..."
