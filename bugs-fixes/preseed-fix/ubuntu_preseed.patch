@@ -1,0 +1,13 @@
+24c24,25
+< 
+---
+> d-i netcfg/no_default_route boolean true
+> d-i netcfg/get_nameservers string 8.8.8.8
+49c50
+< d-i pkgsel/include string build-essential linux-headers-generic perl make
+---
+> d-i pkgsel/include string openssh-server build-essential linux-headers-generic perl make
+77c78
+<  && /bin/bash /root/vboxpostinstall.sh --preseed-late-command
+---
+>  && /bin/sh /target/root/vboxpostinstall.sh --need-target-bash --preseed-late-command

@@ -1,0 +1,4 @@
+207c207
+< log_command_in_target /bin/bash -c "udevadm constrol --reload-rules" # GAs doesn't yet do this.
+---
+> log_command_in_target /bin/bash -c "udevadm control --reload-rules" # GAs doesn't yet do this.
