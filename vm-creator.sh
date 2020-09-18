@@ -70,11 +70,13 @@ VBoxManage unattended install $VMName --full-user-name=$fullUname --user=$Uname 
 echo -e "\n [+] Start $VMName VM \n"
 VBoxManage startvm $VMName --type headless
 
-echo -e "\n [+] Wait for installation to finish \n"
-
 echo -e "Running VMs"
 
 VBoxManage list runningvms | grep $VMName
+
+echo -e "\n [+] Wait for installation to finish \n"
+
+
 
 
 
