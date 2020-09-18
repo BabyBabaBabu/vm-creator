@@ -1,17 +1,10 @@
 #!/usr/bin/env bash
 
-#Source config file with variable names
+# Source config file with variable names
 . vm.conf
 
-VMName="PWNShop"
-vNet=
-osType=Ubuntu_64
-diskSize=10240
-memSize=512
-form="VHD"
-varian="Fixed"
 
-#create the VM
+# Create the VM
 
 echo -e "\n [+] Creating Virtual Machine \n"
 VBoxManage createvm --name $VMName --ostype $osType --register
@@ -72,7 +65,7 @@ VBoxManage dhcpserver add --interface=$vNet --server-ip=$dhcpServer --netmask=$n
 
 echo -e "\n [+] Installing OS in VM \n"
 
-VBoxManage unattended install $VMName --full-user-name=$fullUname --user=$Uname --password=$Password --locale=en_US --country=KE --time-zone=EAT --hostname="pwnshop.kitaa.com" --iso="/home/kitaa/Downloads/iso/ubuntu-18.04.4-server-amd64.iso" --install-additions --additions-iso="/home/kitaa/.config/VirtualBox/VBoxGuestAdditions_6.1.8.iso"  --post-install-command="shutdown -r now"
+VBoxManage unattended install $VMName --full-user-name=$fullUname --user=$Uname --password=$Password --locale=$Locale --country=$Country --time-zone=$Zone --hostname=$Fqdn --iso=$osISO --install-additions --additions-iso="/home/`whoami`/.config/VirtualBox/VBoxGuestAdditions_6.1.8.iso"  --post-install-command=$pInstall
 
 echo -e "\n [+] Start $VMName VM \n"
 VBoxManage startvm $VMName --type headless
