@@ -57,9 +57,9 @@ VBoxManage list runningvms | grep $VBoxName
 
 echo -e "\n [+] Wait for installation to finish \n"
 VBoxManage guestproperty wait $VBoxName /VirtualBox/GuestInfo/Net/0/V4/IP 2>&1 /dev/null
+echo -e "\n [+] Installation complete! "
 # Returns valid IP Address assigned to VM
 address=`VBoxManage guestproperty get $VBoxName /VirtualBox/GuestInfo/Net/0/V4/IP | grep -Eo "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" `
-echo -e "\n [+] Installation complete! "
 echo -e "\n [+] Access \"$VBoxName\" VM on Host-Only Interface \"$vNet\" at \"$address\" \n"
 
 
