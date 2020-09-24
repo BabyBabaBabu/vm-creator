@@ -1,2 +1,3 @@
-#ignore this folder
-res/
+#ignore these files
+bugs-fixes/postinstall-fix/*.sh
+bugs-fixes/preseed-fix/*.cfg
