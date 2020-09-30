@@ -4,13 +4,31 @@
 # creation and installation of a VirtualBox Virtual Machine
 # Author: BabyBabaBabu
 
-# Source config file with variable names
-. vm.conf
+# Path to config file containing variable names
+CONFIG_PATH=""
+
 # VM storage folder
 #VMDIR=`VBoxManage list systemproperties | awk -F":" '/Default machine folder/  { print $2 }' | sed -e 's/^[ \t]*//'`
+
 OS_TYPE="`cat /etc/os-release | grep -E "ID_LIKE" | sed -e 's/ID_LIKE=//'`"
 P_MANAGER=""
 P_INSTALLER=""
+
+# Sanitize & source config file containing variable names
+function confSanitizer(){
+    CONFIG_PATH="vm.conf"
+    # commented lines, empty lines und lines of the from choose_ANYNAME='any.:Value' are valid
+    CONFIG_SYNTAX="^\s*#|^\s*$|^[a-zA-Z_]+='[^']*'$"
+    # check if the file contains something we don't want
+    if egrep -q -v "${CONFIG_SYNTAX}" "$CONFIG_PATH"; then
+        echo "Error parsing config file ${CONFIG_PATH}." >&2
+        echo "The following lines in the configfile do not fit the syntax:" >&2
+        egrep -vn "${CONFIG_SYNTAX}" "$CONFIG_PATH"
+        exit 5
+    fi
+    # otherwise go on and source it:
+    source "${CONFIG_PATH}"
+}
 
 function osCheck(){
 # Check OS Type and substitute with suitable package manager & package installer
@@ -32,6 +50,7 @@ function osCheck(){
 # Check if dependencies already met & satisfy them
    depCheck
 }
+
 
 function depCheck(){
     if $P_MANAGER virtualbox &>/dev/null ;then
@@ -139,6 +158,7 @@ function checkExist(){
 # Logging
 function runSetUp(){
     echo -e "[+] Started: "`date +"%H-%M-%S-%d-%m-%y"`
+    confSanitizer
     osCheck
     checkExist
     createVM
