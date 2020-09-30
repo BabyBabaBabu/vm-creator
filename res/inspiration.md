@@ -57,6 +57,6 @@ https://www.virtualbox.org/svn/vbox/trunk/src/VBox/Main/UnattendedTemplates/debi
 https://renenyffenegger.ch/notes/Companies-Products/Oracle/VM-VirtualBox/command-line/PowerShell/unattended-os-installation
 https://www.virtualbox.org/ticket/18411
 https://kifarunix.com/how-to-automate-virtual-machine-installation-on-virtualbox/
-
+https://stackoverflow.com/questions/61623802/virtual-box-missing-guest-additions-after-silent-installation-of-centos-7-under
 
 
