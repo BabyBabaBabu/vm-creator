@@ -7,7 +7,40 @@
 # Source config file with variable names
 . vm.conf
 # VM storage folder
-# VMDIR=`VBoxManage list systemproperties | awk -F":" '/Default machine folder/  { print $2 }' | sed -e 's/^[ \t]*//'`
+#VMDIR=`VBoxManage list systemproperties | awk -F":" '/Default machine folder/  { print $2 }' | sed -e 's/^[ \t]*//'`
+OS_TYPE="`cat /etc/os-release | grep -E "ID_LIKE" | sed -e 's/ID_LIKE=//'`"
+P_MANAGER=""
+P_INSTALLER=""
+
+function osCheck(){
+# Check OS Type and substitute with suitable package manager & package installer
+    #debian based OS 
+    if [[ "$OS_TYPE" -eq "debian"]];then
+        P_MANAGER="dpkg -s"
+        P_INSTALLER="apt-get -qq install"
+    #centos based OS
+    elif [[ "$OS_TYPE" -eq "rhel fedora" ]];then
+        P_MANAGER="rpm -q"
+        P_INSTALLER="yum install"
+    #arch based OS
+    elif [[ "$OS_TYPE" -eq "archlinux" || "$OS_TYPE" -eq "arch" ]];then
+        P_MANAGER="pacman -Qi"
+        P_INSTALLER="pacman -S"
+    else
+        echo -e "Unknown OS Type"
+    fi
+# Check if dependencies already met & satisfy them
+   depCheck
+}
+
+function depCheck(){
+    if $P_MANAGER virtualbox &>/dev/null ;then
+        return 0
+    else
+        echo -e "installing..."
+        sudo $P_INSTALLER virtualbox
+    fi
+}
 
 # Create the VM
 function createVM(){
@@ -106,6 +139,7 @@ function checkExist(){
 # Logging
 function runSetUp(){
     echo -e "[+] Started: "`date +"%H-%M-%S-%d-%m-%y"`
+    osCheck
     checkExist
     createVM
     addModifications
